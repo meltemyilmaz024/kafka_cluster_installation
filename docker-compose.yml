@@ -1,0 +1,104 @@
+version: '3.5'
+networks:
+  default:
+    name: kafka-workshop
+services:
+
+#  ================================== Confluent REST Proxy ========================================== #
+  kafka-rest-1:
+    image: confluentinc/cp-kafka-rest:7.5.0
+    container_name: kafka-rest-1
+    hostname: kafka-rest-1
+    labels:
+      com.platys.name: kafka-rest
+      com.platys.restapi.title: Kafka REST Proxy
+      com.platys.restapi.url: http://dataplatform:18086
+    ports:
+      - 18086:8086
+    environment:
+      KAFKA_REST_BOOTSTRAP_SERVERS: kafka01:9092
+      KAFKA_REST_LISTENERS: http://0.0.0.0:8086
+      KAFKA_REST_SCHEMA_REGISTRY_URL: http://schema-registry-1:8081
+      KAFKA_REST_HOST_NAME: kafka-rest-1
+      KAFKA_REST_ACCESS_CONTROL_ALLOW_ORIGIN: '*'
+      KAFKA_REST_ACCESS_CONTROL_ALLOW_METHODS: GET,POST,PUT,DELETE
+      KAFKA_REST_ACCESS_CONTROL_ALLOW_HEADERS: origin,content-type,accept,authorization
+    volumes:
+      - ./data-transfer:/data-transfer
+    restart: unless-stopped
+
+  #  ================================== kafka topics ui  ========================================== #
+
+  # https://github.com/Landoop/kafka-topics-ui
+  kafka-topics-ui:
+    image: landoop/kafka-topics-ui:0.9.4
+    container_name: kafka-topics-ui
+    environment:
+      KAFKA_REST_PROXY_URL: http://0.0.0.0:8086
+      PROXY: "TRUE"
+    ports:
+      - 28109:8000
+    depends_on:
+      - kafka-rest-1
+    restart: always
+
+  #  ================================== kcat (used to be kafkacat)  ========================================== #
+  kcat:
+    image: edenhill/kcat:1.7.1
+    container_name: kcat
+    hostname: kcat
+    labels:
+      com.platys.name: kcat
+    volumes:
+      - ./data-transfer:/data-transfer
+    entrypoint:
+      - /bin/sh
+      - -c
+      - |
+        while [ 1 -eq 1 ];do sleep 60;done
+    restart: unless-stopped
+
+  #  ================================== Kafka Connect UI ========================================== #
+  kafka-connect-ui:
+    image: landoop/kafka-connect-ui:latest
+    container_name: kafka-connect-ui
+    hostname: kafka-connect-ui
+    labels:
+      com.platys.name: kafka-connect-ui
+      com.platys.webui.title: Kafka Connect UI
+      com.platys.webui.url: http://dataplatform:28103
+    ports:
+      - 28103:8000
+    environment:
+      CONNECT_URL: http://kafka-connect-1:8083,http://kafka-connect-2:8084
+      PROXY: 'true'
+    volumes:
+      - ./data-transfer:/data-transfer
+      - ./conf/resolv.conf:/etc/resolv.conf:ro
+    restart: unless-stopped
+ #  ================================== Jupyter ========================================== #
+  jupyter:
+    image: jupyter/minimal-notebook:latest
+    container_name: jupyter
+    hostname: jupyter
+    labels:
+      com.platys.name: jupyter
+      com.platys.webui.title: Jupyter UI
+      com.platys.webui.url: http://dataplatform:28888
+    ports:
+      - 28888:8888
+      - 14040-14044:4040-4044
+    user: root
+    environment:
+      JUPYTER_ENABLE_LAB: "'yes'"
+      GRANT_SUDO: "'yes'"
+      DOCKER_STACKS_JUPYTER_CMD: lab
+    volumes:
+      - ./data-transfer:/data-transfer
+    command:
+      # In the command section, $ are replaced with $$ to avoid the error 'Invalid interpolation format for "command" option'
+      - bash
+      - -c
+      - |
+        start-notebook.sh
+    restart: unless-stopped
