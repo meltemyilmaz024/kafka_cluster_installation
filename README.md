@@ -40,3 +40,10 @@ bin/kafka-console-producer.sh --bootstrap-server kafka01:9092 --topic third_topi
 **Delete that topic**
 
 bin/kafka-topics.sh --bootstrap-server kafka01:9092 --delete --topic third_topic
+
+
+**INSTALL DOCKER**
+
+ubuntu@kafka01:~$ chmod +x docker-installation.sh
+
+ubuntu@kafka01:~$ ./docker-installation.sh
