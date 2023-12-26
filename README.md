@@ -47,3 +47,9 @@ bin/kafka-topics.sh --bootstrap-server kafka01:9092 --delete --topic third_topic
 ubuntu@kafka01:~$ chmod +x docker-installation.sh
 
 ubuntu@kafka01:~$ ./docker-installation.sh
+
+ubuntu@kafka01:~/containers$ sudo docker compose -f kafka-manager-docker-compose.yml up -d
+
+
+
+
