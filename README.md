@@ -2,7 +2,7 @@
 
 
 
-**Create First Topic **
+**Create First Topic**
 
 bin/kafka-topics.sh --bootstrap-server kafka01:9092 --create --topic first_topic
 
