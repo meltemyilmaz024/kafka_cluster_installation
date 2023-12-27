@@ -35,13 +35,14 @@ cat /usr/local/kafka/logs/server.log
 
 
 # create a topic
-bin/kafka-topics.sh --zookeeper zookeeper1:2181/kafka --create --topic first_topic --replication-factor 1 --partitions 3
+bin/kafka-topics.sh --bootstrap-server kafka1:9092 --create --topic first_topic --replication-factor 1 --partitions 3
+
 # produce data to the topic
-bin/kafka-console-producer.sh --broker-list kafka1:9092 --topic first_topic
-hi
-hello
+bin/kafka-console-producer.sh --bootstrap-server kafka1:9092 --topic first_topic
+hello world !
 (exit)
+
 # read that data
 bin/kafka-console-consumer.sh --bootstrap-server kafka1:9092 --topic first_topic --from-beginning
 # list kafka topics
-bin/kafka-topics.sh --zookeeper zookeeper1:2181/kafka --list
+bin/kafka-topics.sh --bootstrap-server kafka1:9092 --list
