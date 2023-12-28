@@ -1,15 +1,17 @@
 # kafka_cluster_installation
 
 
+**Kafka Small Cluster On-Premise Installation on Ubuntu 22.04**
 
-**1- Install Zookeeper Quorum with following s1-zookeeper-installartion file**
 
 
-**2- Install Kafka Small Cluster (3 Brokers) with Following s2-kafka-installartion File**
+1- Install Zookeeper Quorum with following s1-zookeeper-installartion File
 
-**3- Cluster Testing with s3-test-kafka-cluster File **
+2- Install Kafka Small Cluster (3 Brokers) with Following s2-kafka-installartion File
 
-**4- Install Docker for Kafa UI with Following docker-installation.sh and below steps**
+3- Cluster Testing with s3-test-kafka-cluster File
+
+4- Install Docker for Kafa UI with Following docker-installation.sh and below steps
 
 **Install Docker**
 
