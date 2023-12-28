@@ -5,11 +5,11 @@
 **1- Install Zookeeper Quorum with following s1-zookeeper-installartion file**
 
 
-**2- Install Kafka Small Cluster (3 Brokers) with following s2-kafka-installartion file**
+**2- Install Kafka Small Cluster (3 Brokers) with Following s2-kafka-installartion File**
 
-**3- Install Docker for Kafa UI with following s3-kafka-installartion file**
+**3- Cluster Testing with s3-test-kafka-cluster File **
 
-**3- Install Docker for Kafa UI with following docker-installation.sh and below steps**
+**4- Install Docker for Kafa UI with Following docker-installation.sh and below steps**
 
 **Install Docker**
 
